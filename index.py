@@ -34,14 +34,18 @@ def get_info(feature=None):
 def get_url_fg(zoomed, region, feature):
     if (zoomed):
         if (region == 'cnt'):
-            url="/assets/commute/county/"+feature+"/taz.GeoJson",  # url to geojson file
+#            url="/assets/commute/county/"+feature+"/taz.GeoJson",  # url to geojson file
+            url="/assets/commute/county/"+feature+"/taz.pbf",  # url to geojson file
         elif (region == 'plc'):
-            url="/assets/commute/place/"+feature+"/taz.GeoJson",  # url to geojson file
+#            url="/assets/commute/place/"+feature+"/taz.GeoJson",  # url to geojson file
+            url="/assets/commute/place/"+feature+"/taz.pbf",  # url to geojson file
     else:
         if (region == 'cnt'):
-            url="/assets/commute/bayArea_county.GeoJson",  # url to geojson file
+#            url="/assets/commute/bayArea_county.GeoJson",  # url to geojson file
+            url="/assets/commute/bayArea_county.pbf",  # url to geojson file
         elif (region == 'plc'):
-            url="/assets/commute/bayArea_place.GeoJson",  # url to geojson file
+#            url="/assets/commute/bayArea_place.GeoJson",  # url to geojson file
+            url="/assets/commute/bayArea_place.pbf",  # url to geojson file
 
     return url
 
@@ -49,9 +53,11 @@ def get_url_fg(zoomed, region, feature):
 def get_url_bg(zoomed, region, feature):
     if (zoomed):
         if (region == 'cnt'):
-            url="/assets/commute/county/"+feature+"/county.GeoJson",  # url to geojson file
+#            url="/assets/commute/county/"+feature+"/county.GeoJson",  # url to geojson file
+            url="/assets/commute/county/"+feature+"/county.pbf",  # url to geojson file
         elif (region == 'plc'):
-            url="/assets/commute/place/"+feature+"/place.GeoJson",  # url to geojson file
+#            url="/assets/commute/place/"+feature+"/place.GeoJson",  # url to geojson file
+            url="/assets/commute/place/"+feature+"/place.pbf",  # url to geojson file
     else:
         if (region == 'cnt'):
             url=None
@@ -81,6 +87,7 @@ default_name = None
 ns = Namespace("dlx", "choropleth")
 geojson_fg = dl.GeoJSON(
     url=get_url_fg(default_zoomed, default_region, default_name),  # url to geojson file
+    format="geobuf",
     options=dict(style=ns("style")),  # how to style each polygon
     hideout=dict(colorscale=colorscale, classes=classes, style=style, colorProp="BIKE"),
     zoomToBoundsOnClick=True,  # when true, zooms to bounds of feature (e.g. polygon) on click
@@ -92,6 +99,7 @@ geojson_fg = dl.GeoJSON(
 style = dict(weight=2, opacity=1, color='white', dashArray='3', fillOpacity=0.5)
 geojson_bg = dl.GeoJSON(
     url=get_url_bg(default_zoomed, default_region, default_name),  # url to geojson file
+    format="geobuf",
     options=dict(style=style),  # how to style each polygon
     zoomToBoundsOnClick=True,  # when true, zooms to bounds of feature (e.g. polygon) on click
     hoverStyle=arrow_function(dict(weight=5, color='#666', dashArray='')),  # style applied on hover
