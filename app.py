@@ -4,18 +4,25 @@ import json
 import numpy as np
 import pandas as pd
 import geopandas as gpd
+import dash 
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_leaflet as dl
 import dash_leaflet.express as dlx
 import dash_bootstrap_components as dbc
-import dash 
 from dash.dependencies import Output, Input
 from dash_extensions.javascript import arrow_function
 from dash_extensions.javascript import Namespace, arrow_function
 
-from shapely.geometry import Point, LineString
-
+#print(json.__version__)
+#print(np.__version__)
+#print(pd.__version__)
+#print(gpd.__version__)
+#print(dash.__version__)
+#print(dcc.__version__)
+#print(html.__version__)
+#print(dl.__version__)
+#print(dbc.__version__)
 
 def get_info(case, feature=None):
     if (case == "acs"):
@@ -183,7 +190,8 @@ attribution = '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a> '
 
 # Create app.
 app = dash.Dash(prevent_initial_callbacks=True)
-app = dash.Dash()
+server = app.server
+#app = dash.Dash()
 app.layout = html.Div(
     [
         dl.Map(center=[37.871667, -122.272778], zoom=8, children=[
@@ -266,4 +274,5 @@ def update_map(zoomed, region, case, nlines, click, hover):
 
 
 if __name__ == '__main__':
+#    app.run_server()
     app.run_server(debug=True)
