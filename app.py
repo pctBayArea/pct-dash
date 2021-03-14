@@ -17,14 +17,14 @@ from dash_extensions.javascript import arrow_function
 from dash_extensions.javascript import Namespace, arrow_function
 from whitenoise import WhiteNoise
 
+#base_url = "http://127.0.0.1:8050/"
+base_url = "https://pctbayarea.herokuapp.com/"
+
 default_zoomed = False
 default_region = 'cnt'
 default_case = "acs"
 default_nlines = 0.0
 default_name = None
-
-#base_url = "http://127.0.0.1:8050/"
-base_url = "https://pctbayarea.herokuapp.com/"
 
 def get_info(case, feature=None):
     if (case == "acs"):
