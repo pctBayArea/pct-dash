@@ -13,16 +13,7 @@ import dash_bootstrap_components as dbc
 from dash.dependencies import Output, Input
 from dash_extensions.javascript import arrow_function
 from dash_extensions.javascript import Namespace, arrow_function
-
-#print(json.__version__)
-#print(np.__version__)
-#print(pd.__version__)
-#print(gpd.__version__)
-#print(dash.__version__)
-#print(dcc.__version__)
-#print(html.__version__)
-#print(dl.__version__)
-#print(dbc.__version__)
+from whitenoise import WhiteNoise
 
 def get_info(case, feature=None):
     if (case == "acs"):
@@ -191,7 +182,8 @@ attribution = '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a> '
 # Create app.
 app = dash.Dash(prevent_initial_callbacks=True)
 server = app.server
-#app = dash.Dash()
+server.wsgi_app = WhiteNoise(server.wsgi_app, root="static/")
+
 app.layout = html.Div(
     [
         dl.Map(center=[37.871667, -122.272778], zoom=8, children=[
