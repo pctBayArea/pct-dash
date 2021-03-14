@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import os
 import json
 import numpy as np
 import pandas as pd
@@ -182,7 +183,24 @@ attribution = '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a> '
 # Create app.
 app = dash.Dash(prevent_initial_callbacks=True)
 server = app.server
-server.wsgi_app = WhiteNoise(server.wsgi_app, root="static/")
+server.wsgi_app = WhiteNoise(
+    server.wsgi_app,
+    root=os.path.join(os.path.dirname(__file__), "static"),
+    prefix="assets/",
+)
+
+def fast_scandir(dirname):
+    subfolders= [f.path for f in os.scandir(dirname) if f.is_dir()]
+    for dirname in list(subfolders):
+        subfolders.extend(fast_scandir(dirname))
+    return subfolders
+
+# Loop through directories
+subfolders = fast_scandir("static")
+
+# Add them to whitenoise
+for folder in subfolders:
+    server.wsgi_app.add_files(os.path.join(os.path.dirname(__file__), folder))
 
 app.layout = html.Div(
     [
@@ -266,5 +284,5 @@ def update_map(zoomed, region, case, nlines, click, hover):
 
 
 if __name__ == '__main__':
-    app.run_server()
-#    app.run_server(debug=True)
+#    app.run_server()
+    app.run_server(debug=True)
