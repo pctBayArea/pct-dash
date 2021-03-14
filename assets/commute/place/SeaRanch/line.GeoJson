@@ -1,0 +1,7 @@
+{
+"type": "FeatureCollection",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "all": 30.0, "bike": 0.0, "go_dutch": 0.73007919552619804, "distance": 22942.200823837014, "gradient": 0.0 }, "geometry": { "type": "LineString", "coordinates": [ [ -123.478767823877789, 38.734959981287822 ], [ -123.304154921915156, 38.579460582326533 ] ] } }
+]
+}
