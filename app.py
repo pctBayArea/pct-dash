@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import os
+from urllib.parse import urljoin
 import json
 import numpy as np
 import pandas as pd
@@ -15,6 +16,15 @@ from dash.dependencies import Output, Input
 from dash_extensions.javascript import arrow_function
 from dash_extensions.javascript import Namespace, arrow_function
 from whitenoise import WhiteNoise
+
+default_zoomed = False
+default_region = 'cnt'
+default_case = "acs"
+default_nlines = 0.0
+default_name = None
+
+#base_url = "http://127.0.0.1:8050/"
+base_url = "https://pctbayarea.herokuapp.com/"
 
 def get_info(case, feature=None):
     if (case == "acs"):
@@ -35,14 +45,14 @@ def get_info(case, feature=None):
 def get_url_fg(zoomed, region, feature):
     if (zoomed):
         if (region == 'cnt'):
-            url="assets/commute/county/"+feature+"/taz.pbf"  # url to geojson file
+            url="/assets/commute/county/"+feature+"/taz.pbf"  # url to geojson file
         elif (region == 'plc'):
-            url="assets/commute/place/"+feature+"/taz.pbf"  # url to geojson file
+            url="/assets/commute/place/"+feature+"/taz.pbf"  # url to geojson file
     else:
         if (region == 'cnt'):
-            url="assets/commute/bayArea_county.pbf"  # url to geojson file
+            url="/assets/commute/bayArea_county.pbf"  # url to geojson file
         elif (region == 'plc'):
-            url="assets/commute/bayArea_place.pbf"  # url to geojson file
+            url="/assets/commute/bayArea_place.pbf"  # url to geojson file
     
     return url
 
@@ -50,9 +60,9 @@ def get_url_fg(zoomed, region, feature):
 def get_url_bg(zoomed, region, feature):
     if (zoomed):
         if (region == 'cnt'):
-            url="assets/commute/county/"+feature+"/county.pbf"  # url to geojson file
+            url="/assets/commute/county/"+feature+"/county.pbf"  # url to geojson file
         elif (region == 'plc'):
-            url="assets/commute/place/"+feature+"/place.pbf"  # url to geojson file
+            url="/assets/commute/place/"+feature+"/place.pbf"  # url to geojson file
     else:
         if (region == 'cnt'):
             url=None
@@ -70,13 +80,13 @@ def get_data(case):
 def get_data_lines(zoomed, region, case, nlines, feature):
     if (zoomed):
         if (region == 'cnt'):
-            fd = pd.read_pickle("assets/commute/county/"+feature+"/line.pkl")
+            fd = pd.read_pickle(urljoin(base_url, "/assets/commute/county/"+feature+"/line.pkl"))
             fd = fd.nlargest(nlines, get_data(case))
             fd = fd.loc[fd[get_data(case)] > 1.0]
             data = fd.to_crs("EPSG:4326").to_json(drop_id=True)
             data = json.loads(data)
         elif (region == 'plc'):
-            fd = pd.read_pickle("assets/commute/place/"+feature+"/line.pkl")
+            fd = pd.read_pickle(urljoin(base_url, "/assets/commute/place/"+feature+"/line.pkl"))
             fd = fd.nlargest(nlines, get_data(case))
             fd = fd.loc[fd[get_data(case)] > 1.0]
             data = fd.to_crs("EPSG:4326").to_json(drop_id=True)
@@ -110,12 +120,6 @@ dd_case = dcc.Dropdown(options=[
     {'label': 'ACS 2011-2015', 'value': 'acs'},
     {'label': 'Go Dutch!', 'value': 'go_dutch'}
 ], value='acs', id="dd_case", clearable=False, searchable=False, style={"opacity": "1.0"})
-
-default_zoomed = False
-default_region = 'cnt'
-default_case = "acs"
-default_nlines = 0.0
-default_name = None
 
 def disable_odlines(zoomed):
     if (zoomed):
@@ -284,5 +288,5 @@ def update_map(zoomed, region, case, nlines, click, hover):
 
 
 if __name__ == '__main__':
-#    app.run_server()
-    app.run_server(debug=True)
+    app.run_server()
+#    app.run_server(debug=True)
