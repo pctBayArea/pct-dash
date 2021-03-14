@@ -3,7 +3,8 @@ numpy==1.19.5
 pandas==1.2.0
 geopandas==0.9.0
 dash==1.18.1
-dash_core_components==1.14.1
-dash_html_components==1.1.1
-dash_leaflet==0.1.13
-dash_bootstrap_components==0.11.1
+dash-core-components==1.14.1
+dash-html-components==1.1.1
+dash-leaflet==0.1.13
+dash-bootstrap-components==0.11.1
+dash-extensions==0.0.41
