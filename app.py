@@ -22,8 +22,8 @@ from whitenoise import WhiteNoise
 # Default values
 ################################################################################
 
-#base_url = "http://127.0.0.1:8050/" # Running locally
-base_url = "https://pctbayarea.herokuapp.com/" # Running on heroku
+base_url = "http://127.0.0.1:8050/" # Running locally
+#base_url = "https://pctbayarea.herokuapp.com/" # Running on heroku
 
 default_zoomed = False
 default_region = "cnt"
@@ -131,17 +131,25 @@ def get_data_lines(zoomed, region, case, nlines, feature):
         if (region == 'cnt'):
             pickle = urljoin(base_url, "/assets/commute/county/"+feature+"/line.pkl")
             fd = pd.read_pickle(pickle)
-            fd = fd.nlargest(nlines, get_data(case))
-            fd = fd.loc[fd[get_data(case)] > 1.0]
-            data = fd.to_crs("EPSG:4326").to_json(drop_id=True)
-            data = json.loads(data)
+            fd = fd.dropna()
+            if fd.empty:
+                data=None
+            else:
+                fd = fd.nlargest(nlines, get_data(case))
+                fd = fd.loc[fd[get_data(case)] > 1.0]
+                data = fd.to_crs("EPSG:4326").to_json(drop_id=True)
+                data = json.loads(data)
         elif (region == 'plc'):
             pickle = urljoin(base_url, "/assets/commute/place/"+feature+"/line.pkl")
             fd = pd.read_pickle(pickle)
-            fd = fd.nlargest(nlines, get_data(case))
-            fd = fd.loc[fd[get_data(case)] > 1.0]
-            data = fd.to_crs("EPSG:4326").to_json(drop_id=True)
-            data = json.loads(data)
+            fd = fd.dropna()
+            if fd.empty:
+                data=None
+            else:
+                fd = fd.nlargest(nlines, get_data(case))
+                fd = fd.loc[fd[get_data(case)] > 1.0]
+                data = fd.to_crs("EPSG:4326").to_json(drop_id=True)
+                data = json.loads(data)
     else:
         data=None
 
@@ -361,7 +369,7 @@ def update_map(zoomed, region, case, nlines, click, hover):
 ################################################################################
 
 if __name__ == '__main__':
-    app.run_server()
-#    app.run_server(debug=True)
+#    app.run_server()
+    app.run_server(debug=True)
 
 ################################################################################
