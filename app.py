@@ -13,6 +13,7 @@ import dash_leaflet as dl
 import dash_leaflet.express as dlx
 import dash_bootstrap_components as dbc
 from dash.dependencies import Output, Input
+from dash.exceptions import PreventUpdate
 from dash_extensions.javascript import arrow_function
 from dash_extensions.javascript import Namespace, arrow_function
 from whitenoise import WhiteNoise
