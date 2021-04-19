@@ -22,8 +22,8 @@ from whitenoise import WhiteNoise
 # Default values
 ################################################################################
 
-base_url = "http://127.0.0.1:8050/" # Running locally
-#base_url = "https://pctbayarea.herokuapp.com/" # Running on heroku
+#base_url = "http://127.0.0.1:8050/" # Running locally
+base_url = "https://pctbayarea.herokuapp.com/" # Running on heroku
 
 default_zoomed = False
 default_region = "cnt"
@@ -369,7 +369,7 @@ def update_map(zoomed, region, case, nlines, click, hover):
 ################################################################################
 
 if __name__ == '__main__':
-#    app.run_server()
-    app.run_server(debug=True)
+    app.run_server()
+#    app.run_server(debug=True)
 
 ################################################################################
