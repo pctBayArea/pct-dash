@@ -88,7 +88,7 @@ def get_info(case, feature=None):
     else:
         header = [html.H4("Bay Area commute trips (go Dutch!)")]
     if not feature:
-        return header + ["Hoover over the map"]
+        return header + ["Hoover over the map and click on counties and places"]
 
     feature = json.loads(feature)
     return header + [html.B(feature["name"]), html.Br(),
